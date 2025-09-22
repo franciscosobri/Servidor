@@ -15,19 +15,24 @@
         ["nombre" => "Gorra", "precio" => 12.0, "stock" => 20],
        ];
 
-       $total = 0; 
+    $productos_orden = [];
 
-       foreach ($productos as $producto){
+    $total = 0; 
+
+    foreach ($productos as $producto){
 
         if ($producto['stock'] > 0){
             echo $producto['nombre'] . ' ';
             $total += $producto['precio'] * $producto['stock'];
         }
-
-
         
+        }
+
+    usort($productos, function($a, $b){
+        return $b['precio'] <=> $a['precio'];
+    });
 
 
-       }
+       echo $total . '<br>';
 
-       echo $total;
+    print_r($productos) ;
