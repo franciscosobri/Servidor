@@ -3,8 +3,7 @@ session_start();
 
 
 if(!isset($_SESSION['name'])){
-    header('Location: login.php');
-    exit;
+    echo "<script>window.location.replace('login.php');</script>";
 }
 
 
