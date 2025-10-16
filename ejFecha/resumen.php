@@ -17,6 +17,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])){
         exit;
     }
 }
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar'])){
+    $index = $_POST['editar'];
+    if(isset($reservas[$index])){
+        $_SESSION['editar'] = $reservas[$index];
+
+        unset($_SESSION['reservas'][$index]);
+
+        $_SESSION['reservas'] = array_values($_SESSION['reservas']);
+    }
+    header('Location: formulario.php');
+}
 
 ?>
 
@@ -42,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])){
             <?php foreach ($reservas as $idx => $reserva): 
                 $fecha = date('d/m/Y', strtotime($reserva['fecha']));
                 $hora = htmlspecialchars($reserva['hora']);
-                $tipo = ucfirst(htmlspecialchars($reserva['tipo']));
+                $tipo = htmlspecialchars($reserva['tipo']);
                 $usuario = htmlspecialchars($reserva['usuario']);
             ?>
                 <div class="alert alert-info d-flex justify-content-between align-items-center">
@@ -51,6 +62,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])){
                         <strong><?= $tipo ?></strong> para el <strong><?= $fecha ?></strong> a las <strong><?= $hora ?></strong>.
                     </div>
                     <form method="POST" class="mb-0">
+                        <button type="submit" name="editar" value="<?= $idx ?>" class="btn btn-warning">
+                            <i class="fa fa-trash"></i> Editar
+                        </button>
+                        
                         <button type="submit" name="borrar" value="<?= $idx ?>" class="btn btn-danger">
                             <i class="fa fa-trash"></i> Borrar
                         </button>
@@ -58,9 +73,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])){
                 </div>
             <?php endforeach; ?>
 
-            <a href="formulario.php" class="btn btn-primary mt-3">
-                <i class="fa fa-plus"></i> Añadir nueva cita
-            </a>
+            
         <?php endif; ?>
 
         <a href="logout.php" class="btn btn-secondary mt-3">

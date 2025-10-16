@@ -3,14 +3,25 @@ session_start();
 
 
 if(!isset($_SESSION['name'])){
-    echo "<script>window.location.replace('login.php');</script>";
+    header('Location: login.php');
+    exit;
 }
+
 
 
 $date= '';
 $time = '';
 $typeDate = '';
 $error = '';
+
+if(isset($_SESSION['editar'])){
+  $editar = $_SESSION['editar'];
+  $date = $editar['fecha'] ?? '';
+  $time = $editar['hora'] ?? '';
+  $typeDate = $editar['tipo'] ?? '';
+  unset($_SESSION['editar']);
+}
+
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -60,22 +71,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
   <div class="form-group row">
     <label for="date" class="col-4 col-form-label">Fecha</label> 
     <div class="col-8">
-      <input id="date" name="date" type="date" class="form-control">
+      <input id="date" name="date" type="date" class="form-control"
+      value="<?= htmlspecialchars($date) ?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="time" class="col-4 col-form-label">Hora</label> 
     <div class="col-8">
-      <input id="time" name="time" type="time" class="form-control">
+      <input id="time" name="time" type="time" class="form-control"
+      value="<?= htmlspecialchars($time) ?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="typeDate" class="col-4 col-form-label">Tipo de Cita</label> 
     <div class="col-8">
-      <select id="typeDate" name="typeDate" class="custom-select">
-        <option value="tutoria">Tutoria</option>
-        <option value="laboratorio">Laboratorio</option>
-        <option value="reunion">Reunion</option>
+    <select id="typeDate" name="typeDate" class="custom-select">
+        <option value="tutoria" <?= ($typeDate === 'tutoria') ? 'selected' : '' ?>>Tutoria</option>
+        <option value="laboratorio" <?= ($typeDate === 'laboratorio') ? 'selected' : '' ?>>Laboratorio</option>
+        <option value="reunion" <?= ($typeDate === 'reunion') ? 'selected' : '' ?>>Reunion</option>
       </select>
     </div>
   </div> 
