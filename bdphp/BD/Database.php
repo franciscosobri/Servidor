@@ -5,12 +5,9 @@ class Database {
     
     public static function getInstance(){
         $config = require __DIR__ . "/config.php";
-        $db = $config['db'];
-        
-        if (!self::$instance){
-            
+        $db = $config["db"];
 
-            // Conectar a la base de datos
+        if (!self::$instance){
             self::$instance = new PDO("mysql:host={$db['host']};dbname={$db['dbname']}", $db['user'], $db['pass']);
         }
 
