@@ -1,9 +1,12 @@
-<?php 
+<?php
+session_start(); 
     $url = str_replace($_SERVER['DOCUMENT_ROOT'],"",__DIR__);
    //echo $_SERVER["DOCUMENT_ROOT"]. "<br>" . __DIR__;
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
@@ -33,6 +36,28 @@
           </ul>
         </li>
       </ul>
+      
     </div>
+    <ul class="navbar-nav ms-auto">
+        <?php if (isset($_SESSION['usuario'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-primary fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              👤 <?= htmlspecialchars($_SESSION['usuario']) ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="<?=$url?>/../login/logout.php">Cerrar sesión</a></li>
+            </ul>
+          </li>
+        <?php else: ?>
+          <li class="nav-item">
+            <a href="<?=$url?>/../login/login.php" class="btn btn-outline-primary ms-3">Iniciar sesión</a>
+          </li>
+        <?php endif; ?>
+      </ul>
   </div>
 </nav>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

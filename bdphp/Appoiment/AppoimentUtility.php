@@ -46,8 +46,9 @@ class AppoimentUtility{
             $stmt->bindParam(":date",$date);
             $stmt->bindParam(":time",$time);
             $stmt->execute();
-            if ($stmt->rowCount() != 1){
-                throw new Exception("No se ha podido modificar");
+            if ($stmt->rowCount() === 0){
+                // throw new Exception("No se ha podido modificar");
+                return false;
             }
 
         }catch (PDOException $e){
